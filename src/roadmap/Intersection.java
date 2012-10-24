@@ -1,3 +1,4 @@
+package roadmap;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -37,44 +38,26 @@ public class Intersection extends PickableSurface {
 		
 	}
 
-	/**
-	 * @return the coordinates
-	 */
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}
 
-	/**
-	 * @param coordinates the coordinates to set
-	 */
 	public void setCoordinates(Coordinates coordinates) {
 		this.coordinates = coordinates;
 	}
 
-	/**
-	 * @return the inboundConnections
-	 */
 	public ArrayList<Connection> getInboundConnections() {
 		return inboundConnections;
 	}
 
-	/**
-	 * @param inboundConnections the inboundConnections to set
-	 */
 	public void setInboundConnections(ArrayList<Connection> inboundConnections) {
 		this.inboundConnections = inboundConnections;
 	}
 
-	/**
-	 * @return the intersectionId
-	 */
 	public int getIntersectionId() {
 		return intersectionId;
 	}
 
-	/**
-	 * @param intersectionId the intersectionId to set
-	 */
 	public void setIntersectionId(int intersectionId) {
 		this.intersectionId = intersectionId;
 	}

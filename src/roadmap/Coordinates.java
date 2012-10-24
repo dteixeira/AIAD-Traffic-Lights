@@ -1,3 +1,4 @@
+package roadmap;
 
 public class Coordinates {
 
@@ -5,33 +6,26 @@ public class Coordinates {
 	private int yCoord;
 
 	public Coordinates(){
-
+		xCoord = yCoord = -1;
 	}
 	
-	/**
-	 * @return the xCoord
-	 */
+	public Coordinates(int xCoord, int yCoord){
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+	}
+	
 	public int getxCoord() {
 		return xCoord;
 	}
 
-	/**
-	 * @param xCoord the xCoord to set
-	 */
 	public void setxCoord(int xCoord) {
 		this.xCoord = xCoord;
 	}
 
-	/**
-	 * @return the yCoord
-	 */
 	public int getyCoord() {
 		return yCoord;
 	}
 
-	/**
-	 * @param yCoord the yCoord to set
-	 */
 	public void setyCoord(int yCoord) {
 		this.yCoord = yCoord;
 	}
