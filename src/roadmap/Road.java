@@ -9,12 +9,22 @@ public class Road extends PickableSurface {
 	private int currentCarCount;
 	private Intersection finishIntersection;
 	private int maxCarCapacity;
-	private int roadId;
 	private boolean singleDirection;
 	private Intersection startIntersection;
 
 	public Road(){
 
+	}
+	
+	public static Road buildOppositeRoad(Road road) {
+		Road newRoad = new Road();
+		newRoad.setCarSpeed(road.getCarSpeed());
+		newRoad.setCurrentCarCount(road.getCurrentCarCount());
+		newRoad.setMaxCarCapacity(road.getMaxCarCapacity());
+		newRoad.setFinishIntersection(road.getStartIntersection());
+		newRoad.setStartIntersection(road.getFinishIntersection());
+		newRoad.setSingleDirection(road.isSingleDirection());
+		return newRoad;
 	}
 
 	@Override
@@ -71,14 +81,6 @@ public class Road extends PickableSurface {
 
 	public void setMaxCarCapacity(int maxCarCapacity) {
 		this.maxCarCapacity = maxCarCapacity;
-	}
-
-	public int getRoadId() {
-		return roadId;
-	}
-
-	public void setRoadId(int roadId) {
-		this.roadId = roadId;
 	}
 
 	public boolean isSingleDirection() {

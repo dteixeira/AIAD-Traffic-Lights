@@ -11,7 +11,7 @@ public class Intersection extends PickableSurface {
 	private int intersectionId;
 
 	public Intersection(){
-
+		inboundConnections = new ArrayList<Connection>();
 	}
 
 	@Override

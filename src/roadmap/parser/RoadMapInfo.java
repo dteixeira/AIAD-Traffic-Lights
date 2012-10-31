@@ -1,10 +1,10 @@
 package roadmap.parser;
 
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
-
 import roadmap.Intersection;
 import roadmap.Road;
-
 
 public class RoadMapInfo {
 
@@ -14,19 +14,28 @@ public class RoadMapInfo {
 	private int defaultSpeed;
 	private int defaultRoadCapacity;
 	private int defaultNumberCars;
-	private HashMap<Integer, Road> roads;
+	private ArrayList<Road> roads;
 	private HashMap<Integer, Intersection> intersections;
+	private BufferedImage backgroundImage;
 	
 	public RoadMapInfo() {
-		roads = new HashMap<Integer, Road>();
+		roads = new ArrayList<Road>();
 		intersections = new HashMap<Integer, Intersection>();
 	}
 	
-	public HashMap<Integer, Road> getRoads() {
+	public BufferedImage getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(BufferedImage backgroundImage) {
+		this.backgroundImage = backgroundImage;
+	}
+
+	public ArrayList<Road> getRoads() {
 		return roads;
 	}
 
-	public void setRoads(HashMap<Integer, Road> roads) {
+	public void setRoads(ArrayList<Road> roads) {
 		this.roads = roads;
 	}
 

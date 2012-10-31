@@ -1,16 +1,15 @@
 package roadmap.parser;
 
 import java.io.File;
-import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import roadmap.Coordinates;
 import roadmap.Intersection;
 import roadmap.Road;
+import roadmap.builder.RoadMapBuilder;
 
 public class RoadMapParser {
 	
@@ -103,7 +102,7 @@ public class RoadMapParser {
 					throw new Exception();
 				
 				// Mandatory attributes
-				newRoad.setRoadId(Integer.parseInt(road.getAttribute(ID_ATTR)));
+				//newRoad.setRoadId(Integer.parseInt(road.getAttribute(ID_ATTR)));
 				newRoad.setStartIntersection(startIntersection);
 				newRoad.setFinishIntersection(finishIntersection);
 				newRoad.setSingleDirection(Boolean.parseBoolean(road.getAttribute(SINGLE_ATTR)));
@@ -117,7 +116,9 @@ public class RoadMapParser {
 				newRoad.setMaxCarCapacity(capacity.equals("") ? roadMapInfo.getDefaultRoadCapacity() : Integer.parseInt(capacity));
 				
 				// Add new Road
-				roadMapInfo.getRoads().put(newRoad.getRoadId(), newRoad);
+				roadMapInfo.getRoads().add(newRoad);
+				if(! newRoad.isSingleDirection())
+					roadMapInfo.getRoads().add(Road.buildOppositeRoad(newRoad));
 			}
 		}
 	}
@@ -142,8 +143,8 @@ public class RoadMapParser {
 	}
 	
 	public static void main(String[] args) {
-		RoadMapInfo map = RoadMapParser.parseRoadMapXML("map.xml");
-		System.out.println("CONFIG");
+		RoadMapInfo map = RoadMapParser.parseRoadMapXML("mapWidth3.xml");
+		/*System.out.println("CONFIG");
 		System.out.println("  WIDTH: " + map.getMapWidth());
 		System.out.println("  HEIGHT: " + map.getMapHeight());
 		System.out.println("  CARS: " + map.getDefaultNumberCars());
@@ -166,6 +167,14 @@ public class RoadMapParser {
 			System.out.println("    SINGLE: " + entry.getValue().isSingleDirection());
 			System.out.println("    START_ID: " + entry.getValue().getStartIntersection().getIntersectionId());
 			System.out.println("    FINISH_ID: " + entry.getValue().getFinishIntersection().getIntersectionId());
-		}
+		}*/
+		RoadMapBuilder.buildAdvancedInfo(map);
+		/*for(Entry<Integer, Intersection> entry : map.getIntersections().entrySet()) {
+			for(Connection connection : entry.getValue().getInboundConnections()) {
+				System.out.println(connection.getConnectedRoad().getRoadId() + " | " + connection.getTrafficLight().getDestinationRoad().getRoadId());
+			}
+		}*/
+		if(map.getRoads().get(0).equals(map.getIntersections().get(1).getInboundConnections().get(0).getConnectedRoad()))
+			System.out.println("YAY");
 	}
 }
