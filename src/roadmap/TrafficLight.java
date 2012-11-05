@@ -4,9 +4,18 @@ public class TrafficLight {
 
 	private Road destinationRoad;
 	private boolean trafficAllowed;
+	private Coordinates coordinates;
 
 	public TrafficLight(){
 
+	}
+	
+	public Coordinates getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(Coordinates coordinates) {
+		this.coordinates = coordinates;
 	}
 	
 	public Road getDestinationRoad() {

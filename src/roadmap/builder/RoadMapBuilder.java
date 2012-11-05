@@ -1,11 +1,9 @@
 package roadmap.builder;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import javax.imageio.ImageIO;
@@ -20,13 +18,13 @@ import roadmap.parser.RoadMapInfo;
 public class RoadMapBuilder {
 	
 	private static int CELL_SIZE = 50;
-	private static String MAP_FLOOR_OUTER_FILE = "tree.png";
-	private static String MAP_FLOOR_INNER_FILE = "house.png";
-	private static String MAP_INTERSECTION_FILE = "intersection.png";
-	private static String MAP_ROAD_SINGLE_VERTICAL_FILE = "dashed-line-vert.png";
-	private static String MAP_ROAD_SINGLE_HORIZONTAL_FILE = "dashed-line-horiz.png";
-	private static String MAP_ROAD_DOUBLE_VERTICAL_FILE = "full-line-vert.png";
-	private static String MAP_ROAD_DOUBLE_HORIZONTAL_FILE = "full-line-horiz.png";
+	private static String MAP_FLOOR_OUTER_FILE = "img/tree.png";
+	private static String MAP_FLOOR_INNER_FILE = "img/house.png";
+	private static String MAP_INTERSECTION_FILE = "img/intersection.png";
+	private static String MAP_ROAD_SINGLE_VERTICAL_FILE = "img/dashed-line-vert.png";
+	private static String MAP_ROAD_SINGLE_HORIZONTAL_FILE = "img/dashed-line-horiz.png";
+	private static String MAP_ROAD_DOUBLE_VERTICAL_FILE = "img/full-line-vert.png";
+	private static String MAP_ROAD_DOUBLE_HORIZONTAL_FILE = "img/full-line-horiz.png";
 
 	public static RoadMapInfo buildAdvancedInfo(RoadMapInfo roadMapInfo) {
 		try {
@@ -88,6 +86,10 @@ public class RoadMapBuilder {
 		}
 	}
 	
+	private static void buildTrafficLightPosition(Connection connect) {
+		// TODO
+	}
+	
 	private static void paintRoads(RoadMapInfo roadMapInfo, BufferedImage background) throws Exception {
 		BufferedImage single_horizontal = ImageIO.read(new File(MAP_ROAD_SINGLE_HORIZONTAL_FILE));
 		BufferedImage double_horizontal = ImageIO.read(new File(MAP_ROAD_DOUBLE_HORIZONTAL_FILE));
@@ -97,6 +99,11 @@ public class RoadMapBuilder {
 		for(Entry<Integer, Intersection> entry : roadMapInfo.getIntersections().entrySet()) {
 			Coordinates coord = convertCoordinates(entry.getValue().getCoordinates());
 			for(Connection connect : entry.getValue().getInboundConnections()) {
+				
+				// Determines the traffic light drawing position
+				buildTrafficLightPosition(connect);
+				
+				// Paints each road
 				Road road = connect.getConnectedRoad();
 				Coordinates source = convertCoordinates(road.getStartIntersection().getCoordinates());
 				if(connect.getOrientation() == Orientation.HORIZONTAL) {
