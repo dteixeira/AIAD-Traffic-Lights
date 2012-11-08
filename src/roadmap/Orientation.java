@@ -1,6 +1,8 @@
 package roadmap;
 
 public enum Orientation {
-	HORIZONTAL,
-	VERTICAL;
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
 }

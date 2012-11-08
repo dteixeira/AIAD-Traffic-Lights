@@ -11,9 +11,28 @@ public class Road extends PickableSurface {
 	private int maxCarCapacity;
 	private boolean singleDirection;
 	private Intersection startIntersection;
+	private Orientation roadOrientation;
+	private int roadId;
+	private static int roadLastId = 0;
 
 	public Road(){
+		roadId = roadLastId++;
+	}
+	
+	public static void resetLastId() {
+		roadLastId = 0;
+	}
+	
+	public int getRoadId() {
+		return roadId;
+	}
+	
+	public Orientation getRoadOrientation() {
+		return roadOrientation;
+	}
 
+	public void setRoadOrientation(Orientation roadOrientation) {
+		this.roadOrientation = roadOrientation;
 	}
 	
 	public static Road buildOppositeRoad(Road road) {
@@ -24,6 +43,10 @@ public class Road extends PickableSurface {
 		newRoad.setFinishIntersection(road.getStartIntersection());
 		newRoad.setStartIntersection(road.getFinishIntersection());
 		newRoad.setSingleDirection(road.isSingleDirection());
+		if(road.getRoadOrientation() == Orientation.UP) newRoad.setRoadOrientation(Orientation.DOWN);
+		else if(road.getRoadOrientation() == Orientation.DOWN) newRoad.setRoadOrientation(Orientation.UP);
+		else if(road.getRoadOrientation() == Orientation.RIGHT) newRoad.setRoadOrientation(Orientation.LEFT);
+		else if(road.getRoadOrientation() == Orientation.LEFT) newRoad.setRoadOrientation(Orientation.RIGHT);
 		return newRoad;
 	}
 

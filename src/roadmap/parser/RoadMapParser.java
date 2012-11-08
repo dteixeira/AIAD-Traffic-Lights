@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import roadmap.Coordinates;
 import roadmap.Intersection;
+import roadmap.Orientation;
 import roadmap.Road;
 import roadmap.builder.RoadMapBuilder;
 
@@ -115,6 +116,25 @@ public class RoadMapParser {
 				newRoad.setCurrentCarCount(cars.equals("") ? roadMapInfo.getDefaultNumberCars() : Integer.parseInt(cars));
 				newRoad.setMaxCarCapacity(capacity.equals("") ? roadMapInfo.getDefaultRoadCapacity() : Integer.parseInt(capacity));
 				
+				// Determine road orientation
+				
+				// Vertical roads
+				if(newRoad.getStartIntersection().getCoordinates().getxCoord() 
+						== newRoad.getFinishIntersection().getCoordinates().getxCoord()) {
+					if(newRoad.getFinishIntersection().getCoordinates().getyCoord()
+						> newRoad.getStartIntersection().getCoordinates().getyCoord())
+						newRoad.setRoadOrientation(Orientation.UP);
+					else
+						newRoad.setRoadOrientation(Orientation.DOWN);
+				} else {
+				// Horizontal roads
+					if(newRoad.getFinishIntersection().getCoordinates().getxCoord()
+						> newRoad.getStartIntersection().getCoordinates().getxCoord())
+						newRoad.setRoadOrientation(Orientation.LEFT);
+					else
+						newRoad.setRoadOrientation(Orientation.RIGHT);
+				}
+				
 				// Add new Road
 				roadMapInfo.getRoads().add(newRoad);
 				if(! newRoad.isSingleDirection())
@@ -176,5 +196,7 @@ public class RoadMapParser {
 		}*/
 		if(map.getRoads().get(0).equals(map.getIntersections().get(1).getInboundConnections().get(0).getConnectedRoad()))
 			System.out.println("YAY");
+		else
+			System.out.println("FUUUUUU");
 	}
 }

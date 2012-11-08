@@ -18,13 +18,13 @@ import roadmap.parser.RoadMapInfo;
 public class RoadMapBuilder {
 	
 	private static int CELL_SIZE = 50;
-	private static String MAP_FLOOR_OUTER_FILE = "img/tree.png";
-	private static String MAP_FLOOR_INNER_FILE = "img/house.png";
-	private static String MAP_INTERSECTION_FILE = "img/intersection.png";
-	private static String MAP_ROAD_SINGLE_VERTICAL_FILE = "img/dashed-line-vert.png";
-	private static String MAP_ROAD_SINGLE_HORIZONTAL_FILE = "img/dashed-line-horiz.png";
-	private static String MAP_ROAD_DOUBLE_VERTICAL_FILE = "img/full-line-vert.png";
-	private static String MAP_ROAD_DOUBLE_HORIZONTAL_FILE = "img/full-line-horiz.png";
+	private static String MAP_FLOOR_OUTER_FILE = "textures/tree.png";
+	private static String MAP_FLOOR_INNER_FILE = "textures/house.png";
+	private static String MAP_INTERSECTION_FILE = "textures/intersection.png";
+	private static String MAP_ROAD_SINGLE_VERTICAL_FILE = "textures/dashed-line-vert.png";
+	private static String MAP_ROAD_SINGLE_HORIZONTAL_FILE = "textures/dashed-line-horiz.png";
+	private static String MAP_ROAD_DOUBLE_VERTICAL_FILE = "textures/full-line-vert.png";
+	private static String MAP_ROAD_DOUBLE_HORIZONTAL_FILE = "textures/full-line-horiz.png";
 
 	public static RoadMapInfo buildAdvancedInfo(RoadMapInfo roadMapInfo) {
 		try {
@@ -106,21 +106,17 @@ public class RoadMapBuilder {
 				// Paints each road
 				Road road = connect.getConnectedRoad();
 				Coordinates source = convertCoordinates(road.getStartIntersection().getCoordinates());
-				if(connect.getOrientation() == Orientation.HORIZONTAL) {
-					int difX = road.getFinishIntersection().getCoordinates().getxCoord()
-							- road.getStartIntersection().getCoordinates().getxCoord();
+				if(road.getRoadOrientation() == Orientation.LEFT || road.getRoadOrientation() == Orientation.RIGHT) {
 					if(connect.getConnectedRoad().isSingleDirection()) {
-						road.setHitBox(paintHorizontalSingleRoad(coord, source, graphics, difX, single_horizontal));
+						road.setHitBox(paintHorizontalSingleRoad(road.getRoadOrientation(), coord, source, graphics, single_horizontal));
 					} else {
-						road.setHitBox(paintHorizontalDoubleRoad(coord, source, graphics, difX, double_horizontal));
+						road.setHitBox(paintHorizontalDoubleRoad(road.getRoadOrientation(), coord, source, graphics, double_horizontal));
 					}
 				} else {
-					int difY = road.getFinishIntersection().getCoordinates().getyCoord()
-							- road.getStartIntersection().getCoordinates().getyCoord();
 					if(connect.getConnectedRoad().isSingleDirection()) {
-						road.setHitBox(paintVerticalSingleRoad(coord, source, graphics, difY, single_vertical));
+						road.setHitBox(paintVerticalSingleRoad(road.getRoadOrientation(), coord, source, graphics, single_vertical));
 					} else {
-						road.setHitBox(paintVerticalDoubleRoad(coord, source, graphics, difY, double_vertical));
+						road.setHitBox(paintVerticalDoubleRoad(road.getRoadOrientation(), coord, source, graphics, double_vertical));
 					}
 				}
 			}
@@ -134,8 +130,8 @@ public class RoadMapBuilder {
 		return convertedCoordinates;
 	}
 	
-	private static Polygon paintHorizontalSingleRoad(Coordinates coord, Coordinates source, Graphics2D graphics, int difX, BufferedImage image) {
-		if(difX > 0) {
+	private static Polygon paintHorizontalSingleRoad(Orientation orientation, Coordinates coord, Coordinates source, Graphics2D graphics, BufferedImage image) {
+		if(orientation == Orientation.LEFT) {
 			for(int x = source.getxCoord() + CELL_SIZE; x < coord.getxCoord(); x += CELL_SIZE) {
 				graphics.drawImage(image, x, coord.getyCoord(),	null);
 			}
@@ -155,8 +151,8 @@ public class RoadMapBuilder {
 		}
 	}
 	
-	private static Polygon paintHorizontalDoubleRoad(Coordinates coord, Coordinates source, Graphics2D graphics, int difX, BufferedImage image) {
-		if(difX > 0) {
+	private static Polygon paintHorizontalDoubleRoad(Orientation orientation, Coordinates coord, Coordinates source, Graphics2D graphics, BufferedImage image) {
+		if(orientation == Orientation.LEFT) {
 			for(int x = source.getxCoord() + CELL_SIZE; x < coord.getxCoord(); x += CELL_SIZE) {
 				graphics.drawImage(image, x, coord.getyCoord(),	null);
 			}
@@ -176,8 +172,8 @@ public class RoadMapBuilder {
 		}
 	}
 	
-	private static Polygon paintVerticalSingleRoad(Coordinates coord, Coordinates source, Graphics2D graphics, int difY, BufferedImage image) {
-		if(difY > 0) {
+	private static Polygon paintVerticalSingleRoad(Orientation orientation, Coordinates coord, Coordinates source, Graphics2D graphics, BufferedImage image) {
+		if(orientation == Orientation.UP) {
 			for(int y = source.getyCoord() + CELL_SIZE; y < coord.getyCoord(); y += CELL_SIZE) {
 				graphics.drawImage(image, coord.getxCoord(), y,	null);
 			}
@@ -197,8 +193,8 @@ public class RoadMapBuilder {
 		}
 	}
 	
-	private static Polygon paintVerticalDoubleRoad(Coordinates coord, Coordinates source, Graphics2D graphics, int difY, BufferedImage image) {
-		if(difY > 0) {
+	private static Polygon paintVerticalDoubleRoad(Orientation orientation, Coordinates coord, Coordinates source, Graphics2D graphics, BufferedImage image) {
+		if(orientation == Orientation.UP) {
 			for(int y = source.getyCoord() + CELL_SIZE; y < coord.getyCoord(); y += CELL_SIZE) {
 				graphics.drawImage(image, coord.getxCoord(), y,	null);
 			}
@@ -229,35 +225,21 @@ public class RoadMapBuilder {
 			
 			// Check valid connections
 			for(Road destinationRoad : possibleConnections) {
-				Orientation connectionOrientation = determineRoadOrientation(destinationRoad);
-				Orientation roadOrientation = determineRoadOrientation(road);
+				Orientation orientation1 = road.getRoadOrientation();
+				Orientation orientation2 = destinationRoad.getRoadOrientation();
 				
-				// No turn connection
-				if(roadOrientation == connectionOrientation) {
-					buildConnection(road, destinationRoad, roadOrientation);
+				boolean valid = false;
+				valid = valid || (orientation1 == Orientation.DOWN && orientation2 == Orientation.DOWN);
+				valid = valid || (orientation1 == Orientation.UP && orientation2 == Orientation.UP);
+				valid = valid || (orientation1 == Orientation.LEFT && orientation2 == Orientation.LEFT);
+				valid = valid || (orientation1 == Orientation.RIGHT && orientation2 == Orientation.RIGHT);
+				valid = valid || (orientation1 == Orientation.DOWN && orientation2 == Orientation.LEFT);
+				valid = valid || (orientation1 == Orientation.UP && orientation2 == Orientation.RIGHT);
+				valid = valid || (orientation1 == Orientation.LEFT && orientation2 == Orientation.UP);
+				valid = valid || (orientation1 == Orientation.RIGHT && orientation2 == Orientation.DOWN);
+				if(valid) {
+					buildConnection(road, destinationRoad);
 					validConnections = true;
-				}
-				// Turn connection
-				else {
-					if(roadOrientation == Orientation.HORIZONTAL) {
-						int roadDiffX = road.getFinishIntersection().getCoordinates().getxCoord()
-								- road.getStartIntersection().getCoordinates().getxCoord();
-						int connectionDiffY = destinationRoad.getFinishIntersection().getCoordinates().getyCoord()
-								- destinationRoad.getStartIntersection().getCoordinates().getyCoord();
-						if((roadDiffX < 0 && connectionDiffY < 0) || (roadDiffX > 0 && connectionDiffY > 0)) {
-							buildConnection(road, destinationRoad, roadOrientation);
-							validConnections = true;
-						}
-					} else {
-						int roadDiffY = road.getFinishIntersection().getCoordinates().getyCoord()
-								- road.getStartIntersection().getCoordinates().getyCoord();
-						int connectionDiffX = destinationRoad.getFinishIntersection().getCoordinates().getxCoord()
-								- destinationRoad.getStartIntersection().getCoordinates().getxCoord();
-						if((roadDiffY < 0 && connectionDiffX > 0) || (roadDiffY > 0 && connectionDiffX < 0)) {
-							buildConnection(road, destinationRoad, roadOrientation);
-							validConnections = true;
-						}
-					}
 				}
 			}
 			// Throw an exception if the road is a dead end
@@ -266,14 +248,14 @@ public class RoadMapBuilder {
 		}
 	}
 	
-	private static Orientation determineRoadOrientation(Road road) {
+	/*private static Orientation determineRoadOrientation(Road road) {
 		return road.getStartIntersection().getCoordinates().getxCoord()
 				== road.getFinishIntersection().getCoordinates().getxCoord()
 				? Orientation.VERTICAL
 				: Orientation.HORIZONTAL;
-	}
+	}*/
 	
-	private static void buildConnection(Road sourceRoad, Road destinationRoad, Orientation orientation) {
+	private static void buildConnection(Road sourceRoad, Road destinationRoad) {
 		// Build traffic light
 		TrafficLight trafficLight = new TrafficLight();
 		trafficLight.setTrafficAllowed(false);
@@ -281,7 +263,6 @@ public class RoadMapBuilder {
 		
 		// Build connection
 		Connection connection =  new Connection();
-		connection.setOrientation(orientation);
 		connection.setConnectedRoad(sourceRoad);
 		connection.setTrafficLight(trafficLight);
 		
