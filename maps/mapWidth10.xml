@@ -1,6 +1,6 @@
 <roadmap>
 	<config>
-		<map height="4" width="4" />
+		<map height="10" width="10" />
 		<default speed="3" capacity="80" cars="5" />
 	</config>
 	<intersections>
