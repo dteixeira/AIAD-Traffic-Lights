@@ -1,0 +1,63 @@
+<roadmap>
+	<config>
+		<map height="5" width="5" />
+		<default speed="3" capacity="80" cars="5" />
+	</config>
+	<intersections>
+		<intersection id="1" x="0" y="0" />
+		<intersection id="2" x="1" y="0" />
+		<intersection id="3" x="3" y="0" />
+		<intersection id="4" x="4" y="0" />
+		<intersection id="5" x="0" y="1" />
+		<intersection id="6" x="1" y="1" />
+		<intersection id="7" x="2" y="1" />
+		<intersection id="8" x="3" y="1" />
+		<intersection id="9" x="4" y="1" />
+		<intersection id="10" x="0" y="2" />
+		<intersection id="11" x="1" y="2" />
+		<intersection id="12" x="2" y="2" />
+		<intersection id="13" x="3" y="2" />
+		<intersection id="14" x="4" y="2" />
+		<intersection id="15" x="0" y="3" />
+		<intersection id="16" x="1" y="3" />
+		<intersection id="17" x="2" y="3" />
+		<intersection id="18" x="3" y="3" />
+		<intersection id="19" x="4" y="3" />
+		<intersection id="20" x="0" y="4" />
+		<intersection id="21" x="1" y="4" />
+		<intersection id="22" x="3" y="4" />
+		<intersection id="23" x="4" y="4" />
+	</intersections>
+	<roads>
+		<!-- outer circuit -->
+		<road start="1" finish="2" single="true"/>
+		<road start="2" finish="3" single="true"/>
+		<road start="3" finish="4" single="true"/>
+		<road start="4" finish="9" single="true"/>
+		<road start="9" finish="14" single="true"/>
+		<road start="14" finish="19" single="true"/>
+		<road start="19" finish="23" single="true"/>
+		<road start="23" finish="22" single="true"/>
+		<road start="22" finish="21" single="true"/>
+		<road start="21" finish="20" single="true"/>
+		<road start="20" finish="15" single="true"/>
+		<road start="15" finish="10" single="true"/>
+		<road start="10" finish="5" single="true"/>
+		<road start="5" finish="1" single="true"/>
+		<!-- other roads -->
+		<road start="10" finish="11" single="false"/>
+		<road start="13" finish="14" single="false"/>
+		<road start="11" finish="6" single="true"/>
+		<road start="16" finish="11" single="true"/>
+		<road start="8" finish="13" single="true"/>
+		<road start="13" finish="18" single="true"/>
+		<road start="6" finish="7" single="true"/>
+		<road start="7" finish="8" single="true"/>
+		<road start="12" finish="11" single="false"/>
+		<road start="12" finish="13" single="false"/>
+		<road start="17" finish="16" single="true"/>
+		<road start="18" finish="17" single="true"/>
+		<road start="7" finish="12" single="false"/>
+		<road start="17" finish="12" single="false"/>
+	</roads>
+</roadmap>

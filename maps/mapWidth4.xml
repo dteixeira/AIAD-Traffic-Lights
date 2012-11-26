@@ -1,0 +1,51 @@
+<roadmap>
+	<config>
+		<map height="4" width="4" />
+		<default speed="3" capacity="80" cars="5" />
+	</config>
+	<intersections>
+		<intersection id="1" x="0" y="0" />
+		<intersection id="2" x="1" y="0" />
+		<intersection id="3" x="2" y="0" />
+		<intersection id="4" x="3" y="0" />
+		<intersection id="5" x="0" y="1" />
+		<intersection id="6" x="1" y="1" />
+		<intersection id="7" x="2" y="1" />
+		<intersection id="8" x="3" y="1" />
+		<intersection id="9" x="0" y="2" />
+		<intersection id="10" x="1" y="2" />
+		<intersection id="11" x="2" y="2" />
+		<intersection id="12" x="3" y="2" />
+		<intersection id="13" x="0" y="3" />
+		<intersection id="14" x="1" y="3" />
+		<intersection id="15" x="2" y="3" />
+		<intersection id="16" x="3" y="3" />
+	</intersections>
+	<roads>
+		<road start="1" finish="2" single="true" />
+		<road start="2" finish="3" single="true" />
+		<road start="3" finish="4" single="true" />
+		<road start="4" finish="8" single="true" />
+		<road start="8" finish="12" single="true" />
+		<road start="12" finish="16" single="true" />
+		<road start="16" finish="15" single="true" />
+		<road start="15" finish="14" single="true" />
+		<road start="14" finish="13" single="true" />
+		<road start="13" finish="9" single="true" />
+		<road start="9" finish="5" single="true" />
+		<road start="5" finish="1" single="true" />
+		
+		<road start="5" finish="6" single="false" />
+		<road start="6" finish="2" single="false" />
+		<road start="6" finish="7" single="false" />
+		<road start="7" finish="3" single="false" />
+		<road start="7" finish="8" single="false" />
+		<road start="9" finish="10" single="false" />
+		<road start="10" finish="6" single="false" />
+		<road start="10" finish="11" single="false" />
+		<road start="11" finish="7" single="false" />
+		<road start="11" finish="12" single="false" />
+		<road start="14" finish="10" single="false" />
+		<road start="15" finish="11" single="false" />
+	</roads>
+</roadmap>

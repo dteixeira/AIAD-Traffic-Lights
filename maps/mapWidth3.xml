@@ -1,0 +1,31 @@
+<roadmap>
+	<config>
+		<map height="3" width="3" />
+		<default speed="3" capacity="10" cars="5" />
+	</config>
+	<intersections>
+		<intersection id="1" x="0" y="0" />
+		<intersection id="2" x="0" y="1" />
+		<intersection id="3" x="0" y="2" />
+		<intersection id="4" x="1" y="0" />
+		<intersection id="5" x="1" y="1" />
+		<intersection id="6" x="1" y="2" />
+		<intersection id="7" x="2" y="0" />
+		<intersection id="8" x="2" y="1" />
+		<intersection id="9" x="2" y="2" />
+	</intersections>
+	<roads>
+		<road start="1" finish="4" single="true" />
+		<road start="2" finish="1" single="true" />
+		<road start="3" finish="2" single="true" />
+		<road start="6" finish="3" single="true" />
+		<road start="9" finish="6" single="true" />
+		<road start="8" finish="9" single="true" />
+		<road start="7" finish="8" single="true" />
+		<road start="4" finish="7" single="true" />
+		<road start="2" finish="5" single="false" />
+		<road start="8" finish="5" single="false" />
+		<road start="4" finish="5" single="false" />
+		<road start="6" finish="5" single="false" />
+	</roads>
+</roadmap>
