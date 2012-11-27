@@ -215,9 +215,10 @@ public class RoadMapBuilder {
 	}
 	
 	private static void connectionBuilder(RoadMapInfo roadMapInfo) throws Exception {
-		for(Road road : roadMapInfo.getRoads()) {
+		for(Entry<Integer, Road> entry : roadMapInfo.getRoads().entrySet()) {
 			
 			// Get list of possible connections
+			Road road = entry.getValue();
 			ArrayList<Road> possibleConnections = possibleConnections(road, roadMapInfo);
 			if(possibleConnections.size() == 0)
 				throw new Exception();
@@ -272,12 +273,12 @@ public class RoadMapBuilder {
 	
 	private static ArrayList<Road> possibleConnections(Road road, RoadMapInfo roadMapInfo) {
 		ArrayList<Road> possibleConnections = new ArrayList<Road>();
-		for(Road entry : roadMapInfo.getRoads()) {
-			if(entry.getStartIntersection().getIntersectionId() == road.getFinishIntersection().getIntersectionId()
-					&& entry.getFinishIntersection().getIntersectionId() == road.getStartIntersection().getIntersectionId())
+		for(Entry<Integer, Road> entry : roadMapInfo.getRoads().entrySet()) {
+			if(entry.getValue().getStartIntersection().getIntersectionId() == road.getFinishIntersection().getIntersectionId()
+					&& entry.getValue().getFinishIntersection().getIntersectionId() == road.getStartIntersection().getIntersectionId())
 				continue;
-			if(entry.getStartIntersection().getIntersectionId() == road.getFinishIntersection().getIntersectionId())
-				possibleConnections.add(entry);
+			if(entry.getValue().getStartIntersection().getIntersectionId() == road.getFinishIntersection().getIntersectionId())
+				possibleConnections.add(entry.getValue());
 		}
 		return possibleConnections;
 	}

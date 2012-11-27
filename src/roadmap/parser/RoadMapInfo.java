@@ -14,12 +14,12 @@ public class RoadMapInfo {
 	private int defaultSpeed;
 	private int defaultRoadCapacity;
 	private int defaultNumberCars;
-	private ArrayList<Road> roads;
+	private HashMap<Integer, Road> roads;
 	private HashMap<Integer, Intersection> intersections;
 	private BufferedImage backgroundImage;
 	
 	public RoadMapInfo() {
-		roads = new ArrayList<Road>();
+		roads = new HashMap<Integer, Road>();
 		intersections = new HashMap<Integer, Intersection>();
 	}
 	
@@ -31,11 +31,11 @@ public class RoadMapInfo {
 		this.backgroundImage = backgroundImage;
 	}
 
-	public ArrayList<Road> getRoads() {
+	public HashMap<Integer, Road> getRoads() {
 		return roads;
 	}
 
-	public void setRoads(ArrayList<Road> roads) {
+	public void setRoads(HashMap<Integer, Road> roads) {
 		this.roads = roads;
 	}
 

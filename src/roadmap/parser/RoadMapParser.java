@@ -136,9 +136,11 @@ public class RoadMapParser {
 				}
 				
 				// Add new Road
-				roadMapInfo.getRoads().add(newRoad);
-				if(! newRoad.isSingleDirection())
-					roadMapInfo.getRoads().add(Road.buildOppositeRoad(newRoad));
+				roadMapInfo.getRoads().put(newRoad.getRoadId(), newRoad);
+				if(! newRoad.isSingleDirection()) {
+					Road oppositeRoad = Road.buildOppositeRoad(newRoad);
+					roadMapInfo.getRoads().put(oppositeRoad.getRoadId(), oppositeRoad);
+				}
 			}
 		}
 	}
