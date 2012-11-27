@@ -1,7 +1,13 @@
 package roadmap;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 
 public class Road extends PickableSurface {
 
@@ -14,6 +20,7 @@ public class Road extends PickableSurface {
 	private Orientation roadOrientation;
 	private int roadId;
 	private static int roadLastId = 0;
+	private static final float FONT_ROTATION = -3.14159f / 2.0f;
 
 	public Road(){
 		roadId = roadLastId++;
@@ -49,29 +56,55 @@ public class Road extends PickableSurface {
 		else if(road.getRoadOrientation() == Orientation.LEFT) newRoad.setRoadOrientation(Orientation.RIGHT);
 		return newRoad;
 	}
+	
+	public void drawCarCount(Graphics graphics) {
+		
+		// Find center of polygon
+		String carCount = "" + currentCarCount;
+		FontMetrics metrics = graphics.getFontMetrics();
+		Rectangle bounds = hitBox.getBounds();
+		
+		// Derive new font
+		graphics.setColor(Color.white);
+		Font font = graphics.getFont().deriveFont(18f);
+		
+		// Draw text in correct orientation
+		if(roadOrientation == Orientation.LEFT || roadOrientation == Orientation.RIGHT) {
+			int centerX = (int) (bounds.getCenterX() - metrics.stringWidth(carCount) / 2);
+			int centerY = (int) (bounds.getCenterY() + metrics.getHeight() / 4);
+			graphics.setFont(font);
+			graphics.drawString(carCount, centerX, centerY);
+		} else {
+			int centerX = (int) (bounds.getCenterX() + metrics.getHeight() / 4);
+			int centerY = (int) (bounds.getCenterY() + metrics.stringWidth(carCount) / 2);
+			AffineTransform transform = font.getTransform();
+			transform.rotate(FONT_ROTATION);
+			Font rotatedFont = font.deriveFont(transform);
+			graphics.setFont(rotatedFont);
+			graphics.drawString(carCount, centerX, centerY);
+			graphics.setFont(font);
+		}
+	}
 
 	@Override
 	public void drawSelected(Graphics graphics) {
-		// TODO Auto-generated method stub
-		
+		graphics.setColor(new Color(0.0f, 0.6f, 0.8f, 0.7f));
+		graphics.fillPolygon(hitBox);
 	}
 
 	@Override
 	public void handleSelected() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean isSelected(Point point) {
-		// TODO Auto-generated method stub
-		return false;
+		return hitBox.contains(point);
 	}
 
 	@Override
 	public void setHitBox(Polygon polygon) {
-		// TODO Auto-generated method stub
-		
+		this.hitBox = polygon;
 	}
 
 	public int getCarSpeed() {
@@ -120,6 +153,15 @@ public class Road extends PickableSurface {
 
 	public void setStartIntersection(Intersection startIntersection) {
 		this.startIntersection = startIntersection;
+	}
+
+	@Override
+	public String getInfoText() {
+		String info = "<html>";
+		info += "<strong>Car count:</strong><p>" + currentCarCount + " cars</p>";
+		info += "<strong>Car speed:</strong><p>" + carSpeed + " car/tick</p>";
+		info += "<strong>Car capacity:</strong><p>" + currentCarCount + " cars</p>";
+		return info;
 	}
 
 }

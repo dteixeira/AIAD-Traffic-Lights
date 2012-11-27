@@ -1,17 +1,23 @@
 package roadmap.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-
 import javax.swing.JPanel;
+import roadmap.Intersection;
+import roadmap.PickableSurface;
+import roadmap.TrafficLight;
 import roadmap.parser.RoadMapInfo;
+import roadmap.Road;
+import java.util.Map.Entry;
 
 public class MapDrawPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private RoadMapInfo roadMap = null;
+	private PickableSurface pickedSurface = null;
 	
 	public MapDrawPanel(boolean db, RoadMapInfo roadMap) {
 		super(db);
@@ -29,13 +35,32 @@ public class MapDrawPanel extends JPanel {
 			
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
-				//MainPanel.this.repaint();
+				boolean picked = false;
+				pickedSurface = null;
+				
+				// Check for picked roads
+				for(Entry<Integer, Road> entry : roadMap.getRoads().entrySet()) {
+					if(entry.getValue().isSelected(arg0.getPoint())) {
+						pickedSurface = entry.getValue();
+						picked = true;
+						break;
+					}
+				}
+				// Check for picked intersections
+				if(!picked) {
+					for(Entry<Integer, Intersection> entry : roadMap.getIntersections().entrySet()) {
+						if(entry.getValue().isSelected(arg0.getPoint())) {
+							pickedSurface = entry.getValue();
+							picked = true;
+							break;
+						}
+					}
+				}
+				repaint();
 			}
 			
 			@Override
 			public void mouseDragged(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				//MainPanel.this.repaint();
 			}
 			
 		});
@@ -50,6 +75,27 @@ public class MapDrawPanel extends JPanel {
 		
 		// Draw background image
 		g.drawImage(roadMap.getBackgroundImage(), 0, 0, null);
+		
+		// Draw picked surface shade
+		if(pickedSurface != null) {
+			setToolTipText(pickedSurface.getInfoText());
+			pickedSurface.drawSelected(g);
+		} else {
+			setToolTipText(null);
+		}
+		
+		// Draw road car count
+		g.setColor(Color.white);
+		for(Entry<Integer, Road> entry : roadMap.getRoads().entrySet()) {
+			entry.getValue().drawCarCount(g);
+		}
+		
+		// Draw traffic lights
+		for(TrafficLight trafficLight : roadMap.getTrafficLights()) {
+			trafficLight.drawTrafficLight(g);
+		}
+		
+		// Dispose of paint context
 		g.dispose();
 	}
 

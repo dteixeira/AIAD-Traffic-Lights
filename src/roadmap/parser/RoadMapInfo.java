@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import roadmap.Intersection;
 import roadmap.Road;
+import roadmap.TrafficLight;
 
 public class RoadMapInfo {
 
@@ -16,11 +17,21 @@ public class RoadMapInfo {
 	private int defaultNumberCars;
 	private HashMap<Integer, Road> roads;
 	private HashMap<Integer, Intersection> intersections;
+	private ArrayList<TrafficLight> trafficLights;
 	private BufferedImage backgroundImage;
+	
+	public ArrayList<TrafficLight> getTrafficLights() {
+		return trafficLights;
+	}
+
+	public void setTrafficLights(ArrayList<TrafficLight> trafficLights) {
+		this.trafficLights = trafficLights;
+	}
 	
 	public RoadMapInfo() {
 		roads = new HashMap<Integer, Road>();
 		intersections = new HashMap<Integer, Intersection>();
+		trafficLights = new ArrayList<TrafficLight>();
 	}
 	
 	public BufferedImage getBackgroundImage() {

@@ -31,6 +31,8 @@ public class RoadMapBuilder {
 			connectionBuilder(roadMapInfo);
 			connectionChecker(roadMapInfo);
 			graphicBuilder(roadMapInfo);
+			
+			// TODO REMOVE
 			File outputfile = new File("saved.png");
 		    ImageIO.write(roadMapInfo.getBackgroundImage(), "png", outputfile);
 			return roadMapInfo;
@@ -86,8 +88,35 @@ public class RoadMapBuilder {
 		}
 	}
 	
-	private static void buildTrafficLightPosition(Connection connect) {
-		// TODO
+	private static void buildTrafficLightPosition(RoadMapInfo roadMap, Connection connect, Coordinates coord) {
+		switch(connect.getConnectedRoad().getRoadOrientation()) {
+		case UP:
+			if(connect.getTrafficLight().getDestinationRoad().getRoadOrientation() == Orientation.UP)
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord() + CELL_SIZE / 2, coord.getyCoord() - CELL_SIZE / 2));
+			else
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord(), coord.getyCoord() - CELL_SIZE / 2));
+			break;
+		case DOWN:
+			if(connect.getTrafficLight().getDestinationRoad().getRoadOrientation() == Orientation.DOWN)
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord(), coord.getyCoord() + CELL_SIZE));
+			else
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord() + CELL_SIZE / 2, coord.getyCoord() + CELL_SIZE));
+			break;
+		case LEFT:
+			if(connect.getTrafficLight().getDestinationRoad().getRoadOrientation() == Orientation.LEFT)
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord() - CELL_SIZE / 2, coord.getyCoord()));
+			else
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord() - CELL_SIZE / 2, coord.getyCoord() + CELL_SIZE / 2));
+			break;
+		case RIGHT:
+			if(connect.getTrafficLight().getDestinationRoad().getRoadOrientation() == Orientation.RIGHT)
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord() + CELL_SIZE, coord.getyCoord() + CELL_SIZE / 2));
+			else
+				connect.getTrafficLight().setCoordinates(new Coordinates(coord.getxCoord() + CELL_SIZE, coord.getyCoord()));
+			break;
+		}
+		connect.getTrafficLight().setLights(connect);
+		roadMap.getTrafficLights().add(connect.getTrafficLight());
 	}
 	
 	private static void paintRoads(RoadMapInfo roadMapInfo, BufferedImage background) throws Exception {
@@ -101,7 +130,7 @@ public class RoadMapBuilder {
 			for(Connection connect : entry.getValue().getInboundConnections()) {
 				
 				// Determines the traffic light drawing position
-				buildTrafficLightPosition(connect);
+				buildTrafficLightPosition(roadMapInfo, connect, coord);
 				
 				// Paints each road
 				Road road = connect.getConnectedRoad();
@@ -248,13 +277,6 @@ public class RoadMapBuilder {
 				throw new Exception();
 		}
 	}
-	
-	/*private static Orientation determineRoadOrientation(Road road) {
-		return road.getStartIntersection().getCoordinates().getxCoord()
-				== road.getFinishIntersection().getCoordinates().getxCoord()
-				? Orientation.VERTICAL
-				: Orientation.HORIZONTAL;
-	}*/
 	
 	private static void buildConnection(Road sourceRoad, Road destinationRoad) {
 		// Build traffic light

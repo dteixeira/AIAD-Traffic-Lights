@@ -1,4 +1,5 @@
 package roadmap;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -16,8 +17,8 @@ public class Intersection extends PickableSurface {
 
 	@Override
 	public void drawSelected(Graphics graphics) {
-		// TODO Auto-generated method stub
-		
+		graphics.setColor(new Color(0.357f, 0.714f, 0.02f, 0.7f));
+		graphics.fillPolygon(hitBox);
 	}
 
 	@Override
@@ -28,14 +29,12 @@ public class Intersection extends PickableSurface {
 
 	@Override
 	public boolean isSelected(Point point) {
-		// TODO Auto-generated method stub
-		return false;
+		return hitBox.contains(point);
 	}
 
 	@Override
 	public void setHitBox(Polygon polygon) {
-		// TODO Auto-generated method stub
-		
+		this.hitBox = polygon;
 	}
 
 	public Coordinates getCoordinates() {
@@ -60,6 +59,11 @@ public class Intersection extends PickableSurface {
 
 	public void setIntersectionId(int intersectionId) {
 		this.intersectionId = intersectionId;
+	}
+
+	@Override
+	public String getInfoText() {
+		return null;
 	}
 
 }

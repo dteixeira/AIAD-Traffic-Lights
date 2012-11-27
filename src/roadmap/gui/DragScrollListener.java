@@ -34,14 +34,12 @@ public class DragScrollListener extends MouseAdapter implements
 		Container container = component.getParent();
 		if (container instanceof JViewport) {
 			JViewport viewport = (JViewport) component.getParent();
-			Point convertedPoint = SwingUtilities.convertPoint(component,
-					e.getPoint(), viewport);
+			Point convertedPoint = SwingUtilities.convertPoint(component, e.getPoint(), viewport);
 			int dx = startingPoint.x - convertedPoint.x;
 			int dy = startingPoint.y - convertedPoint.y;
 			Point viewPoint = viewport.getViewPosition();
 			viewPoint.translate(dx, dy);
-			component.scrollRectToVisible(new Rectangle(viewPoint, viewport
-					.getSize()));
+			component.scrollRectToVisible(new Rectangle(viewPoint, viewport.getSize()));
 			startingPoint.setLocation(convertedPoint);
 		}
 	}

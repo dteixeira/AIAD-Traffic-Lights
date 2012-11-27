@@ -2,9 +2,6 @@ package roadmap.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -24,7 +21,6 @@ public class MainFrame extends JFrame {
 	private MainPanel mainPanel = null;
 	
 	public MainFrame(RoadMapInfo roadMap) {
-		// TODO
 		setupFrame();
 		setupMainPanel(roadMap);
 		setupMenuBar();
@@ -39,7 +35,6 @@ public class MainFrame extends JFrame {
         }
 		setTitle(FRAME_TITLE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         
         // Global tool tip settings
         ToolTipManager.sharedInstance().setDismissDelay(100000);
@@ -80,7 +75,7 @@ public class MainFrame extends JFrame {
 	
 	
 	public static void main(String[] args) {
-		RoadMapInfo roadMap = RoadMapParser.parseRoadMapXML("maps/mapWidth3.xml");
+		RoadMapInfo roadMap = RoadMapParser.parseRoadMapXML("maps/mapWidth10.xml");
 		RoadMapBuilder.buildAdvancedInfo(roadMap);
 		new MainFrame(roadMap).setVisible(true);
 	}
