@@ -9,6 +9,8 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 
+import roadmap.gui.RoadConfigurationDialog;
+
 public class Road extends PickableSurface {
 
 	private int carSpeed;
@@ -94,7 +96,7 @@ public class Road extends PickableSurface {
 
 	@Override
 	public void handleSelected() {
-		// TODO Auto-generated method stub
+		new RoadConfigurationDialog(null, "Road Configuration", this).setVisible(true);
 	}
 
 	@Override
@@ -160,7 +162,7 @@ public class Road extends PickableSurface {
 		String info = "<html>";
 		info += "<strong>Car count:</strong><p>" + currentCarCount + " cars</p>";
 		info += "<strong>Car speed:</strong><p>" + carSpeed + " car/tick</p>";
-		info += "<strong>Car capacity:</strong><p>" + currentCarCount + " cars</p>";
+		info += "<strong>Car capacity:</strong><p>" + maxCarCapacity + " cars</p>";
 		return info;
 	}
 

@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import roadmap.Intersection;
 import roadmap.PickableSurface;
 import roadmap.TrafficLight;
@@ -63,6 +65,31 @@ public class MapDrawPanel extends JPanel {
 			public void mouseDragged(MouseEvent arg0) {
 			}
 			
+		});
+        addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Call handle for clicked events
+				if(pickedSurface != null)
+					pickedSurface.handleSelected();
+			}
 		});
 	}
 	
