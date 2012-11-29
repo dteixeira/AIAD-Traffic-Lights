@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
 
+import roadmap.gui.IntersectionConfigurationDialog;
+
 public class Intersection extends PickableSurface {
 
 	private Coordinates coordinates;
@@ -23,8 +25,7 @@ public class Intersection extends PickableSurface {
 
 	@Override
 	public void handleSelected() {
-		// TODO Auto-generated method stub
-		
+		new IntersectionConfigurationDialog(null, "Intersection configuration", this).setVisible(true);
 	}
 
 	@Override

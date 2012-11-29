@@ -1,7 +1,6 @@
 package roadmap.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +33,6 @@ public class RoadConfigurationDialog extends JDialog {
 		
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-		setPreferredSize(new Dimension(300, 200));
 		setResizable(false);
 		
 		// Car speed
