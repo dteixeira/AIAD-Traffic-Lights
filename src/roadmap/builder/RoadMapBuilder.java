@@ -291,6 +291,9 @@ public class RoadMapBuilder {
 		
 		// Relate connection to intersection
 		sourceRoad.getFinishIntersection().getInboundConnections().add(connection);
+		
+		// Add connections to the origin road
+		sourceRoad.getConnections().add(connection);
 	}
 	
 	private static ArrayList<Road> possibleConnections(Road road, RoadMapInfo roadMapInfo) {

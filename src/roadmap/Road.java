@@ -8,26 +8,61 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import roadmap.gui.RoadConfigurationDialog;
 
 public class Road extends PickableSurface {
 
 	private int carSpeed;
-	private int currentCarCount;
+	private LinkedList<Car> carQueue;
+	private LinkedList<Car> carWaitingQueue;
 	private Intersection finishIntersection;
 	private int maxCarCapacity;
 	private boolean singleDirection;
 	private Intersection startIntersection;
 	private Orientation roadOrientation;
+	private ArrayList<Connection> connections;
 	private int roadId;
 	private static int roadLastId = 0;
 	private static final float FONT_ROTATION = -3.14159f / 2.0f;
 
 	public Road(){
 		roadId = roadLastId++;
+		carQueue = new LinkedList<Car>();
+		carWaitingQueue = new LinkedList<Car>();
+		connections = new ArrayList<Connection>();
 	}
-	
+
+	public ArrayList<Connection> getConnections() {
+		return connections;
+	}
+
+	public void setConnections(ArrayList<Connection> connections) {
+		this.connections = connections;
+	}
+
+	public LinkedList<Car> getCarQueue() {
+		return carQueue;
+	}
+
+	public void setCarQueue(LinkedList<Car> carQueue) {
+		this.carQueue = carQueue;
+	}
+
+	public LinkedList<Car> getCarWaitingQueue() {
+		return carWaitingQueue;
+	}
+
+	public void setCarWaitingQueue(LinkedList<Car> carWaitingQueue) {
+		this.carWaitingQueue = carWaitingQueue;
+	}
+
+	public void setRoadId(int roadId) {
+		this.roadId = roadId;
+	}
+
 	public static void resetLastId() {
 		roadLastId = 0;
 	}
@@ -62,7 +97,7 @@ public class Road extends PickableSurface {
 	public void drawCarCount(Graphics graphics) {
 		
 		// Find center of polygon
-		String carCount = "" + currentCarCount;
+		String carCount = "" + carQueue.size();
 		FontMetrics metrics = graphics.getFontMetrics();
 		Rectangle bounds = hitBox.getBounds();
 		
@@ -118,11 +153,21 @@ public class Road extends PickableSurface {
 	}
 
 	public int getCurrentCarCount() {
-		return currentCarCount;
+		return carQueue.size();
 	}
 
 	public void setCurrentCarCount(int currentCarCount) {
-		this.currentCarCount = currentCarCount;
+		if(currentCarCount < carQueue.size()) {
+			while(carQueue.size() > currentCarCount)
+				carQueue.pop();
+		} else if(currentCarCount > carQueue.size()) {
+			while(carQueue.size() < currentCarCount) {
+				Car car = new Car();
+				car.setCurrentRoadId(roadId);
+				car.setNextRoadId(-1);
+				carQueue.add(car);
+			}
+		}
 	}
 
 	public Intersection getFinishIntersection() {
@@ -160,7 +205,8 @@ public class Road extends PickableSurface {
 	@Override
 	public String getInfoText() {
 		String info = "<html>";
-		info += "<strong>Car count:</strong><p>" + currentCarCount + " cars</p>";
+		info += "<strong>Road ID:</strong><p>" + roadId + "</p>";
+		info += "<strong>Car count:</strong><p>" + carQueue.size() + " cars</p>";
 		info += "<strong>Car speed:</strong><p>" + carSpeed + " car/tick</p>";
 		info += "<strong>Car capacity:</strong><p>" + maxCarCapacity + " cars</p>";
 		return info;
