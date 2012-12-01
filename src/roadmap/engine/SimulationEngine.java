@@ -33,7 +33,7 @@ public class SimulationEngine {
 		instance.world = RoadMapParser.parseRoadMapXML(filename);
 		RoadMapBuilder.buildAdvancedInfo(instance.world);
 		instance.randomGenerator = new Random();
-		
+	
 		// Build gui
 		instance.gui = new MainFrame(instance.world);
 		

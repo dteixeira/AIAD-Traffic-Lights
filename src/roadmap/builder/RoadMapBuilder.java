@@ -18,13 +18,13 @@ import roadmap.parser.RoadMapInfo;
 public class RoadMapBuilder {
 	
 	private static int CELL_SIZE = 50;
-	private static String MAP_FLOOR_OUTER_FILE = "textures/tree.png";
-	private static String MAP_FLOOR_INNER_FILE = "textures/house.png";
-	private static String MAP_INTERSECTION_FILE = "textures/intersection.png";
-	private static String MAP_ROAD_SINGLE_VERTICAL_FILE = "textures/dashed-line-vert.png";
-	private static String MAP_ROAD_SINGLE_HORIZONTAL_FILE = "textures/dashed-line-horiz.png";
-	private static String MAP_ROAD_DOUBLE_VERTICAL_FILE = "textures/full-line-vert.png";
-	private static String MAP_ROAD_DOUBLE_HORIZONTAL_FILE = "textures/full-line-horiz.png";
+	private static String MAP_FLOOR_OUTER_FILE = "/home/diogo/workspace/AIAD-Traffic-Lights/" + "textures/tree.png";
+	private static String MAP_FLOOR_INNER_FILE = "/home/diogo/workspace/AIAD-Traffic-Lights/" + "textures/house.png";
+	private static String MAP_INTERSECTION_FILE = "/home/diogo/workspace/AIAD-Traffic-Lights/" + "textures/intersection.png";
+	private static String MAP_ROAD_SINGLE_VERTICAL_FILE = "/home/diogo/workspace/AIAD-Traffic-Lights/" + "textures/dashed-line-vert.png";
+	private static String MAP_ROAD_SINGLE_HORIZONTAL_FILE = "/home/diogo/workspace/AIAD-Traffic-Lights/" + "textures/dashed-line-horiz.png";
+	private static String MAP_ROAD_DOUBLE_VERTICAL_FILE = "/home/diogo/workspace/AIAD-Traffic-Lights/" + "textures/full-line-vert.png";
+	private static String MAP_ROAD_DOUBLE_HORIZONTAL_FILE = "/home/diogo/workspace/AIAD-Traffic-Lights/" + "textures/full-line-horiz.png";
 
 	public static RoadMapInfo buildAdvancedInfo(RoadMapInfo roadMapInfo) {
 		try {

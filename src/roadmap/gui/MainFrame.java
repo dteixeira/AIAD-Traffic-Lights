@@ -1,8 +1,10 @@
 package roadmap.gui;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,12 +18,24 @@ public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static String FRAME_TITLE = "Traffic Light Planner";
+	private JLabel statusBar = null;
 	private MainPanel mainPanel = null;
 	
 	public MainFrame(RoadMapInfo roadMap) {
 		setupFrame();
 		setupMainPanel(roadMap);
 		setupMenuBar();
+		setupStatusBar();
+	}
+	
+	public void setStatusMessage(String message) {
+		statusBar.setText("STATUS: " + message);
+		statusBar.repaint();
+	}
+	
+	private void setupStatusBar() {
+		statusBar = new JLabel("STATUS: Ready");
+		getContentPane().add(statusBar, BorderLayout.SOUTH);
 	}
 	
 	public void redrawMap() {
