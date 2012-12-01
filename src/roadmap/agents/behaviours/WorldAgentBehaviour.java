@@ -3,7 +3,7 @@ package roadmap.agents.behaviours;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import roadmap.Intersection;
-import roadmap.agents.WorldAgent;
+import roadmap.agents.Vocabulary;
 import roadmap.engine.SimulationEngine;
 import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
@@ -52,14 +52,14 @@ public class WorldAgentBehaviour extends SimpleBehaviour {
 			ACLMessage msg = myAgent.blockingReceive();
 			while(msg.getPerformative() != ACLMessage.INFORM 
 					|| msg.getContent() == null
-					|| !msg.getContent().equals(WorldAgent.INFORM_REGISTER)
+					|| !msg.getContent().equals(Vocabulary.INFORM_REGISTER)
 					|| agentMapping.get(msg.getSender().getName()) != null)
 				msg = myAgent.blockingReceive();
 			agentMapping.put(msg.getSender().getName(), entry.getValue());
 			
 			// Sends confirmation
 			ACLMessage reply = msg.createReply();
-			reply.setContent(WorldAgent.INFORM_REGISTER_REPLAY);
+			reply.setContent(Vocabulary.INFORM_REGISTER_REPLY);
 			myAgent.send(reply);
 		}
 		simulationEngine.getGui().setStatusMessage("Ready");

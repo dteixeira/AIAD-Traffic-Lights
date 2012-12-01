@@ -12,8 +12,6 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 public class WorldAgent extends Agent {
 
 	private static final long serialVersionUID = 1L;
-	public static final String INFORM_REGISTER = "REGISTER";
-	public static final String INFORM_REGISTER_REPLAY = "REGISTER_SUCCESS";
 	private SimulationEngine simulationEngine = null;
 	private boolean manualSimulation = false;
 	
