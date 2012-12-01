@@ -16,6 +16,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 import roadmap.Road;
+import roadmap.engine.SimulationEngine;
 
 public class RoadConfigurationDialog extends JDialog {
 
@@ -109,6 +110,7 @@ public class RoadConfigurationDialog extends JDialog {
 			JOptionPane.showMessageDialog(this, "Car count can't be greater than the maximum capacity.", "Logic error", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			this.dispose();
+			SimulationEngine.getInstance().getGui().redrawMap();
 		}
 	}
 

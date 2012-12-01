@@ -9,24 +9,51 @@ import java.util.Random;
 import roadmap.Car;
 import roadmap.Connection;
 import roadmap.Road;
+import roadmap.builder.RoadMapBuilder;
+import roadmap.gui.MainFrame;
 import roadmap.parser.RoadMapInfo;
+import roadmap.parser.RoadMapParser;
 
 public class SimulationEngine {
 	
 	private RoadMapInfo world;
+	private MainFrame gui;
 	private Random randomGenerator;
+	private static SimulationEngine instance = null;
 	
-	public SimulationEngine(RoadMapInfo world) {
-		this.world = world;
-		randomGenerator = new Random();
+	private SimulationEngine() {
+	}
+	
+	public static SimulationEngine initInstance(String filename) {
+		if(instance != null)
+			return instance;
+		
+		// Builds map information
+		instance = new SimulationEngine();
+		instance.world = RoadMapParser.parseRoadMapXML(filename);
+		RoadMapBuilder.buildAdvancedInfo(instance.world);
+		instance.randomGenerator = new Random();
+		
+		// Build gui
+		instance.gui = new MainFrame(instance.world);
+		
+		return instance;
+	}
+	
+	public static SimulationEngine getInstance() {
+		return instance;
 	}
 
 	public RoadMapInfo getWorld() {
 		return world;
 	}
-
-	public void setWorld(RoadMapInfo world) {
-		this.world = world;
+	
+	public MainFrame getGui() {
+		return gui;
+	}
+	
+	public void setVisible(boolean vs) {
+		gui.setVisible(vs);
 	}
 
 	public void evolveWorld() {
@@ -45,6 +72,7 @@ public class SimulationEngine {
 				}
 			}
 		}
+		gui.redrawMap();
 	}
 
 	private void retractCars() {

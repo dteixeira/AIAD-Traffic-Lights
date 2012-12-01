@@ -18,6 +18,7 @@ import roadmap.Connection;
 import roadmap.Intersection;
 import roadmap.Orientation;
 import roadmap.TrafficLight;
+import roadmap.engine.SimulationEngine;
 
 public class IntersectionConfigurationDialog extends JDialog {
 
@@ -123,6 +124,7 @@ public class IntersectionConfigurationDialog extends JDialog {
 		for(Entry<JCheckBox, TrafficLight> entry : verticalCheckBox.entrySet())
 			entry.getValue().setTrafficAllowed(entry.getKey().isSelected());
 		this.dispose();
+		SimulationEngine.getInstance().getGui().redrawMap();
 	}
 	
 }

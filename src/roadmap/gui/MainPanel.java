@@ -40,5 +40,9 @@ public class MainPanel extends JPanel {
 			return new Dimension(MAX_WIDTH, MAX_HEIGHT);
 		
 	}
+	
+	protected void redrawMap() {
+		mapDrawPanel.repaint();
+	}
 
 }

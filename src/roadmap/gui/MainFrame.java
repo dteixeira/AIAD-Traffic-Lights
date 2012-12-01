@@ -9,24 +9,23 @@ import javax.swing.JMenuItem;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
-
-import roadmap.builder.RoadMapBuilder;
 import roadmap.engine.SimulationEngine;
 import roadmap.parser.RoadMapInfo;
-import roadmap.parser.RoadMapParser;
 
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static String FRAME_TITLE = "Traffic Light Planner";
 	private MainPanel mainPanel = null;
-	private SimulationEngine simulator;
 	
 	public MainFrame(RoadMapInfo roadMap) {
 		setupFrame();
 		setupMainPanel(roadMap);
 		setupMenuBar();
-		simulator = new SimulationEngine(roadMap); // TODO REMOVE
+	}
+	
+	public void redrawMap() {
+		mainPanel.redrawMap();
 	}
 	
 	private void setupFrame() {
@@ -61,7 +60,7 @@ public class MainFrame extends JFrame {
 		evolveOption.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				simulator.evolveWorld();
+				SimulationEngine.getInstance().evolveWorld();
 			}
 		});
 		
@@ -83,12 +82,9 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menuBar);
 	}
 	
-	
-	
 	public static void main(String[] args) {
-		RoadMapInfo roadMap = RoadMapParser.parseRoadMapXML("maps/mapWidth3.xml");
-		RoadMapBuilder.buildAdvancedInfo(roadMap);
-		new MainFrame(roadMap).setVisible(true);
+		SimulationEngine engine = SimulationEngine.initInstance("maps/mapWidth3.xml");
+		engine.setVisible(true);
 	}
 
 }
