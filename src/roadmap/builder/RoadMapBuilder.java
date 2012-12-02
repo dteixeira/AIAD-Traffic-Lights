@@ -31,10 +31,6 @@ public class RoadMapBuilder {
 			connectionBuilder(roadMapInfo);
 			connectionChecker(roadMapInfo);
 			graphicBuilder(roadMapInfo);
-			
-			// TODO REMOVE
-			File outputfile = new File("saved.png");
-		    ImageIO.write(roadMapInfo.getBackgroundImage(), "png", outputfile);
 			return roadMapInfo;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -281,7 +277,7 @@ public class RoadMapBuilder {
 	private static void buildConnection(Road sourceRoad, Road destinationRoad) {
 		// Build traffic light
 		TrafficLight trafficLight = new TrafficLight();
-		trafficLight.setTrafficAllowed(false);
+		trafficLight.setTrafficAllowed(sourceRoad.getRoadOrientation() == Orientation.LEFT || sourceRoad.getRoadOrientation() == Orientation.RIGHT);
 		trafficLight.setDestinationRoad(destinationRoad);
 		
 		// Build connection

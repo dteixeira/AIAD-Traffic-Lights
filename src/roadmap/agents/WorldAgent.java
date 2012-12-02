@@ -13,7 +13,6 @@ public class WorldAgent extends Agent {
 
 	private static final long serialVersionUID = 1L;
 	private SimulationEngine simulationEngine = null;
-	private boolean manualSimulation = false;
 	
 	@Override
 	protected void setup() {
@@ -30,7 +29,7 @@ public class WorldAgent extends Agent {
 		dfd.setName(getAID());
 		ServiceDescription sd = new ServiceDescription();
 		sd.setName(getName());
-		sd.setType("World Agent");
+		sd.setType(Vocabulary.WORLD_AGENT_TYPE);
 		dfd.addServices(sd);
 		try {
 			DFService.register(this, dfd);
@@ -73,7 +72,8 @@ public class WorldAgent extends Agent {
 		
 		// Check for simulation type
 		try {
-			manualSimulation = Boolean.parseBoolean((String) args[1]);
+			boolean sim = Boolean.parseBoolean((String) args[1]);
+			SimulationEngine.setManualSimulation(sim);
 		} catch(Exception e) {
 			System.out.println("Could not determine type of simulation. Defaulting to \"agent based simulation\"");
 		}

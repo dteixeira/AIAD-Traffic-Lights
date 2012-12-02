@@ -11,6 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import roadmap.engine.SimulationEngine;
 import roadmap.gui.RoadConfigurationDialog;
 
 public class Road extends PickableSurface {
@@ -131,7 +132,13 @@ public class Road extends PickableSurface {
 
 	@Override
 	public void handleSelected() {
-		new RoadConfigurationDialog(null, "Road Configuration", this).setVisible(true);
+		if(SimulationEngine.isPaused() || SimulationEngine.isManualSimulation()) {
+			SimulationEngine.getInstance().getGui().setStatusMessage("Redefining world...");
+			new RoadConfigurationDialog(null, "Road Configuration", this).setVisible(true);
+		} else {
+			SimulationEngine.getInstance().getGui().setStatusMessage("Pause requested. Try again when simulation is paused");
+			SimulationEngine.setPauseRequest(true);
+		}
 	}
 
 	@Override

@@ -74,7 +74,47 @@ public class MainFrame extends JFrame {
 		evolveOption.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				SimulationEngine.getInstance().evolveWorld();
+				// Can only evolve on manual simulation
+				if(SimulationEngine.isManualSimulation()) {
+					SimulationEngine.getInstance().getGui().setStatusMessage("Evolving world...");
+					SimulationEngine.getInstance().evolveWorld();
+					SimulationEngine.getInstance().getGui().setStatusMessage("Ready");
+				}
+				else
+					SimulationEngine.getInstance().getGui().setStatusMessage("Only active for manual simulations");
+			}
+		});
+		JMenuItem resumeOption = new JMenuItem("Resume");
+		simulationMenu.add(resumeOption);
+		resumeOption.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(SimulationEngine.isManualSimulation()) {
+					SimulationEngine.getInstance().getGui().setStatusMessage("No need to resume a manual simulation");
+					return;
+				} else {
+					SimulationEngine.getInstance().getGui().setStatusMessage("Resuming simulation...");
+					SimulationEngine.setPauseRequest(false);
+					SimulationEngine.setPaused(false);
+				}
+			}
+		});
+		JMenuItem pauseOption = new JMenuItem("Pause");
+		simulationMenu.add(pauseOption);
+		pauseOption.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if(SimulationEngine.isManualSimulation()) {
+					SimulationEngine.getInstance().getGui().setStatusMessage("No need to pause a manual simulation");
+					return;
+				}
+				else if(SimulationEngine.isPaused())
+					SimulationEngine.getInstance().getGui().setStatusMessage("Paused");
+				else {
+					SimulationEngine.getInstance().getGui().setStatusMessage("Requesting pause...");
+					SimulationEngine.setPauseRequest(true);
+				}
 			}
 		});
 		
@@ -95,10 +135,4 @@ public class MainFrame extends JFrame {
 		menuBar.add(optionsMenu);
 		setJMenuBar(menuBar);
 	}
-	
-	public static void main(String[] args) {
-		SimulationEngine engine = SimulationEngine.initInstance("maps/mapWidth3.xml");
-		engine.setVisible(true);
-	}
-
 }

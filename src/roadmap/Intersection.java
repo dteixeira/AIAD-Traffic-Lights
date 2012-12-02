@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
 
+import roadmap.engine.SimulationEngine;
 import roadmap.gui.IntersectionConfigurationDialog;
 
 public class Intersection extends PickableSurface {
@@ -25,7 +26,13 @@ public class Intersection extends PickableSurface {
 
 	@Override
 	public void handleSelected() {
-		new IntersectionConfigurationDialog(null, "Intersection configuration", this).setVisible(true);
+		// Create a configuration window if the simulation is set to manual
+		if(SimulationEngine.isManualSimulation()) {
+			SimulationEngine.getInstance().getGui().setStatusMessage("Redefining world...");
+			new IntersectionConfigurationDialog(null, "Intersection configuration", this).setVisible(true);
+		}
+		else
+			SimulationEngine.getInstance().getGui().setStatusMessage("Can only modify street lights in manual simulation");
 	}
 
 	@Override

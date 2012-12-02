@@ -20,7 +20,34 @@ public class SimulationEngine {
 	private MainFrame gui;
 	private Random randomGenerator;
 	private static SimulationEngine instance = null;
+	private static boolean pauseRequest = false;
+	private static boolean paused = false;
+	private static boolean manualSimulation = false;
 	
+	public static boolean isPauseRequest() {
+		return pauseRequest;
+	}
+
+	public static void setPauseRequest(boolean pauseRequest) {
+		SimulationEngine.pauseRequest = pauseRequest;
+	}
+
+	public static boolean isPaused() {
+		return paused;
+	}
+
+	public static void setPaused(boolean paused) {
+		SimulationEngine.paused = paused;
+	}
+
+	public static boolean isManualSimulation() {
+		return manualSimulation;
+	}
+
+	public static void setManualSimulation(boolean manualSimulation) {
+		SimulationEngine.manualSimulation = manualSimulation;
+	}
+
 	private SimulationEngine() {
 	}
 	

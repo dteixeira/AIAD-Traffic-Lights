@@ -10,7 +10,6 @@ import roadmap.Coordinates;
 import roadmap.Intersection;
 import roadmap.Orientation;
 import roadmap.Road;
-import roadmap.builder.RoadMapBuilder;
 
 public class RoadMapParser {
 	
@@ -162,43 +161,5 @@ public class RoadMapParser {
 				roadMapInfo.getIntersections().put(newIntersection.getIntersectionId(), newIntersection);
 			}
 		}
-	}
-	
-	public static void main(String[] args) {
-		RoadMapInfo map = RoadMapParser.parseRoadMapXML("mapWidth3.xml");
-		/*System.out.println("CONFIG");
-		System.out.println("  WIDTH: " + map.getMapWidth());
-		System.out.println("  HEIGHT: " + map.getMapHeight());
-		System.out.println("  CARS: " + map.getDefaultNumberCars());
-		System.out.println("  SPEED: " + map.getDefaultSpeed());
-		System.out.println("  CAPACITY: " + map.getDefaultRoadCapacity());
-		System.out.println("INTERSECTIONS");
-		for(Entry<Integer, Intersection> entry : map.getIntersections().entrySet()) {
-			System.out.println("  INTERSECTION");
-			System.out.println("    ID: " + entry.getValue().getIntersectionId());
-			System.out.println("    X: " + entry.getValue().getCoordinates().getxCoord());
-			System.out.println("    Y: " + entry.getValue().getCoordinates().getyCoord());
-		}
-		System.out.println("ROADS");
-		for(Entry<Integer, Road> entry : map.getRoads().entrySet()) {
-			System.out.println("  ROAD");
-			System.out.println("    ID: " + entry.getValue().getRoadId());
-			System.out.println("    SPEED: " + entry.getValue().getCarSpeed());
-			System.out.println("    CARS: " + entry.getValue().getCurrentCarCount());
-			System.out.println("    CAPACITY: " + entry.getValue().getMaxCarCapacity());
-			System.out.println("    SINGLE: " + entry.getValue().isSingleDirection());
-			System.out.println("    START_ID: " + entry.getValue().getStartIntersection().getIntersectionId());
-			System.out.println("    FINISH_ID: " + entry.getValue().getFinishIntersection().getIntersectionId());
-		}*/
-		RoadMapBuilder.buildAdvancedInfo(map);
-		/*for(Entry<Integer, Intersection> entry : map.getIntersections().entrySet()) {
-			for(Connection connection : entry.getValue().getInboundConnections()) {
-				System.out.println(connection.getConnectedRoad().getRoadId() + " | " + connection.getTrafficLight().getDestinationRoad().getRoadId());
-			}
-		}*/
-		if(map.getRoads().get(0).equals(map.getIntersections().get(1).getInboundConnections().get(0).getConnectedRoad()))
-			System.out.println("YAY");
-		else
-			System.out.println("FUUUUUU");
 	}
 }
