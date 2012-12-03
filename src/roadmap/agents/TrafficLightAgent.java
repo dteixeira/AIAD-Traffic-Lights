@@ -28,7 +28,7 @@ public class TrafficLightAgent extends Agent {
 		dfd.setName(getAID());
 		ServiceDescription sd = new ServiceDescription();
 		sd.setName(getName());
-		sd.setType(getName());
+		sd.setType(Vocabulary.TRAFFIC_LIGHT_AGENT_TYPE);
 		dfd.addServices(sd);
 		try {
 			DFService.register(this, dfd);

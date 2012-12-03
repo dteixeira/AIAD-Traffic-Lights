@@ -11,19 +11,16 @@ import roadmap.agents.packets.UpdateInfo;
 import roadmap.agents.packets.WorldUpdatePacket;
 import roadmap.engine.SimulationEngine;
 import roadmap.parser.RoadMapInfo;
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
-import jade.domain.DFService;
-import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
 public class WorldAgentBehaviour extends SimpleBehaviour {
 
 	private static final long serialVersionUID = 1L;
-	private HashMap<Integer, String> agentMapping = null;
+	private HashMap<Integer, AID> agentMapping = null;
 	private static final int TICK_DURATION = 2000;
 	
 	public WorldAgentBehaviour(Agent agent) {
@@ -55,20 +52,15 @@ public class WorldAgentBehaviour extends SimpleBehaviour {
 		SimulationEngine.getInstance().getGui().setStatusMessage("Sending information to agents...");
 		for(Entry<Integer, Intersection> entry : world.getIntersections().entrySet()) {
 			Intersection intersection = entry.getValue();
-			TrafficLightInfoPacket packet = new TrafficLightInfoPacket(intersection, agentMapping);
+			TrafficLightInfoPacket packet = new TrafficLightInfoPacket(intersection);
 			
 			// Search for the agent
-			DFAgentDescription template = new DFAgentDescription();
-			ServiceDescription sd1 = new ServiceDescription();
-			sd1.setType(agentMapping.get(intersection.getIntersectionId()));
-			template.addServices(sd1);
 			try {
-				DFAgentDescription[] result = DFService.search(myAgent, template);
 				ACLMessage msg = new ACLMessage(ACLMessage.INFORM_REF);
 				msg.setContentObject(packet);
-				msg.addReceiver(result[0].getName());
+				msg.addReceiver(agentMapping.get(intersection.getIntersectionId()));
 				myAgent.send(msg);
-			} catch (FIPAException | IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -114,7 +106,7 @@ public class WorldAgentBehaviour extends SimpleBehaviour {
 	}
 	
 	private void registerIntersections() {
-		agentMapping = new HashMap<Integer, String>();
+		agentMapping = new HashMap<Integer, AID>();
 		SimulationEngine simulationEngine = SimulationEngine.getInstance();
 		
 		// Set waiting message
@@ -128,7 +120,7 @@ public class WorldAgentBehaviour extends SimpleBehaviour {
 					|| !msg.getContent().equals(Vocabulary.INFORM_REGISTER)
 					|| agentMapping.values().contains(msg.getSender().getName()))
 				msg = myAgent.blockingReceive();
-			agentMapping.put(entry.getValue().getIntersectionId(), msg.getSender().getName());
+			agentMapping.put(entry.getValue().getIntersectionId(), msg.getSender());
 			
 			// Sends confirmation
 			ACLMessage reply = msg.createReply();

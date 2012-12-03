@@ -1,6 +1,5 @@
 package roadmap.agents.packets;
 
-import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import roadmap.Connection;
@@ -12,12 +11,11 @@ public class TrafficLightInfoPacket implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<ConnectionInfo> info;
 	
-	public TrafficLightInfoPacket(Intersection intersection, HashMap<Integer, String> agentMapping) {
+	public TrafficLightInfoPacket(Intersection intersection) {
 		info = new ArrayList<ConnectionInfo>();
 		for(Connection connect : intersection.getInboundConnections()) {
 			ConnectionInfo cInfo = new ConnectionInfo();
 			Road road = connect.getConnectedRoad();
-			cInfo.setAgentName(agentMapping.get(connect.getTrafficLight().getDestinationRoad().getFinishIntersection().getIntersectionId()));
 			cInfo.setCarCount(road.getCurrentCarCount());
 			cInfo.setRoadCapacity(road.getMaxCarCapacity());
 			cInfo.setRoadId(road.getRoadId());

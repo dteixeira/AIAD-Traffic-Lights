@@ -10,7 +10,6 @@ public class ConnectionInfo implements Serializable {
 	private int roadCapacity;
 	private int roadId;
 	private int nextRoadId;
-	private String agentName;
 	private boolean currentState;
 	private Orientation roadOrientation;
 	
@@ -60,14 +59,6 @@ public class ConnectionInfo implements Serializable {
 	
 	public void setNextRoadId(int nextRoadId) {
 		this.nextRoadId = nextRoadId;
-	}
-	
-	public String getAgentName() {
-		return agentName;
-	}
-	
-	public void setAgentName(String agentName) {
-		this.agentName = agentName;
 	}
 
 }
