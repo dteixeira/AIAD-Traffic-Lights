@@ -11,6 +11,7 @@ import roadmap.Connection;
 import roadmap.Road;
 import roadmap.builder.RoadMapBuilder;
 import roadmap.gui.MainFrame;
+import roadmap.gui.StatsDialog;
 import roadmap.parser.RoadMapInfo;
 import roadmap.parser.RoadMapParser;
 
@@ -18,6 +19,7 @@ public class SimulationEngine {
 	
 	private RoadMapInfo world;
 	private MainFrame gui;
+	private StatsDialog stats;
 	private Random randomGenerator;
 	private static SimulationEngine instance = null;
 	private static boolean pauseRequest = false;
@@ -64,6 +66,9 @@ public class SimulationEngine {
 		// Build gui
 		instance.gui = new MainFrame(instance.world);
 		
+		// Build statistics dialog
+		instance.stats = new StatsDialog(instance.gui, "Statistics", instance.world);
+		
 		return instance;
 	}
 	
@@ -79,13 +84,19 @@ public class SimulationEngine {
 		return gui;
 	}
 	
+	public StatsDialog getStats() {
+		return stats;
+	}
+	
 	public void setVisible(boolean vs) {
 		gui.setVisible(vs);
+		stats.setVisible(vs);
 	}
 
 	public void evolveWorld() {
 		moveCars();
 		retractCars();
+		stats.updateStats();
 		cleanup();
 	}
 

@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -26,14 +27,29 @@ public class Road extends PickableSurface {
 	private Orientation roadOrientation;
 	private ArrayList<Connection> connections;
 	private int roadId;
+	private int maxRegisteredCarCount;
+	private double percentageMaxRegisteredCarCount;
+	private double avgCarCount;
 	private static int roadLastId = 0;
-	private static final float FONT_ROTATION = -3.14159f / 2.0f;
+	private static final float FONT_ROTATION = (float) (- Math.PI / 2.0f);
+	private static final DecimalFormat formatter = new DecimalFormat("#.##");
 
 	public Road(){
+		maxRegisteredCarCount = 0;
+		percentageMaxRegisteredCarCount = 0.0;
+		avgCarCount = 0.0;
 		roadId = roadLastId++;
 		carQueue = new LinkedList<Car>();
 		carWaitingQueue = new LinkedList<Car>();
 		connections = new ArrayList<Connection>();
+	}
+	
+	public void updateStats(int cycles) {
+		if(maxRegisteredCarCount < carQueue.size()) {
+			maxRegisteredCarCount = carQueue.size();
+			percentageMaxRegisteredCarCount = (double) maxRegisteredCarCount / (double) maxCarCapacity;
+		}
+		avgCarCount = (avgCarCount * (double) (cycles - 1) + (double) carQueue.size()) / (double) cycles;
 	}
 
 	public ArrayList<Connection> getConnections() {
@@ -216,6 +232,10 @@ public class Road extends PickableSurface {
 		info += "<strong>Car count:</strong><p>" + carQueue.size() + " cars</p>";
 		info += "<strong>Car speed:</strong><p>" + carSpeed + " car/tick</p>";
 		info += "<strong>Car capacity:</strong><p>" + maxCarCapacity + " cars</p>";
+		info += "<strong>Max car count:</strong><p>" + maxRegisteredCarCount + " cars</p>";
+		info += "<strong>Max capacity reached:</strong><p>" + formatter.format(percentageMaxRegisteredCarCount * 100.0) + "%</p>";
+		info += "<strong>Avg car count:</strong><p>" + formatter.format(avgCarCount) + " cars</p>";
+		info += "</html>";
 		return info;
 	}
 

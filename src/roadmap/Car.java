@@ -6,9 +6,36 @@ public class Car {
 	private int carId;
 	private int currentRoadId;
 	private int nextRoadId;
+	private int aliveCycles = 0;
+	private int timeWaiting = 0;
+	private int timeMoving = 0;
 	
 	public Car() {
 		carId = carLastId++;
+	}
+	
+	public int getAliveCycles() {
+		return aliveCycles;
+	}
+
+	public void setAliveCycles(int aliveCycles) {
+		this.aliveCycles = aliveCycles;
+	}
+
+	public int getTimeWaiting() {
+		return timeWaiting;
+	}
+
+	public void setTimeWaiting(int timeWaiting) {
+		this.timeWaiting = timeWaiting;
+	}
+
+	public int getTimeMoving() {
+		return timeMoving;
+	}
+
+	public void setTimeMoving(int timeMoving) {
+		this.timeMoving = timeMoving;
 	}
 	
 	public int getNextRoadId() {
