@@ -1,5 +1,7 @@
 package roadmap.agents.packets;
 
+import jade.core.AID;
+
 import java.io.Serializable;
 import roadmap.Orientation;
 
@@ -10,15 +12,42 @@ public class ConnectionInfo implements Serializable {
 	private int roadCapacity;
 	private int roadId;
 	private int nextRoadId;
+	private int intersectionId;
+	private int maxCarSpeed;
 	private boolean currentState;
+	private AID agentAID;
 	private Orientation roadOrientation;
 	
 	public Orientation getRoadOrientation() {
 		return roadOrientation;
 	}
 
+	public int getMaxCarSpeed() {
+		return maxCarSpeed;
+	}
+
+	public void setMaxCarSpeed(int maxCarSpeed) {
+		this.maxCarSpeed = maxCarSpeed;
+	}
+
+	public int getIntersectionId() {
+		return intersectionId;
+	}
+
+	public void setIntersectionId(int intersectionId) {
+		this.intersectionId = intersectionId;
+	}
+
 	public void setRoadOrientation(Orientation roadOrientation) {
 		this.roadOrientation = roadOrientation;
+	}
+
+	public AID getAgentAID() {
+		return agentAID;
+	}
+
+	public void setAgentAID(AID agentAID) {
+		this.agentAID = agentAID;
 	}
 
 	public boolean isCurrentState() {

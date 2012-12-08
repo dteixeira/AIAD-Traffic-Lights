@@ -1,5 +1,6 @@
 package roadmap.agents;
 
+import roadmap.agents.behaviours.TrafficLightAgentCommunicationBehaviour;
 import roadmap.agents.behaviours.TrafficLightAgentReduceLoadBehaviour;
 import roadmap.agents.behaviours.TrafficLightAgentTimedBehaviour;
 import jade.core.Agent;
@@ -16,6 +17,7 @@ public class TrafficLightAgent extends Agent {
 	private String agentType = "";
 	private static final String TIMED_BEHAVIOUR = "timed";
 	private static final String REDUCE_LOAD_BEHAVIOUR = "reduce-load";
+	private static final String COMMUNICATION_BEHAVIOUR = "comm";
 
 	protected void setup() {
 		boolean correctArguments = parseArguments();
@@ -45,6 +47,8 @@ public class TrafficLightAgent extends Agent {
 			b = new TrafficLightAgentTimedBehaviour(this);
 		else if(agentType.equals(REDUCE_LOAD_BEHAVIOUR))
 			b = new TrafficLightAgentReduceLoadBehaviour(this);
+		else if(agentType.equals(COMMUNICATION_BEHAVIOUR))
+			b = new TrafficLightAgentCommunicationBehaviour(this);
 		addBehaviour(b);
 	}
 	
@@ -55,7 +59,7 @@ public class TrafficLightAgent extends Agent {
 		try {
 			agentType = (String) args[0];
 			agentType = agentType.toLowerCase();
-			if(!agentType.equals(REDUCE_LOAD_BEHAVIOUR) && !agentType.equals(TIMED_BEHAVIOUR)) {
+			if(!agentType.equals(REDUCE_LOAD_BEHAVIOUR) && !agentType.equals(TIMED_BEHAVIOUR) && !agentType.equals(COMMUNICATION_BEHAVIOUR)) {
 				System.out.println("No valid agent type defined.");
 				return false;
 			}

@@ -21,7 +21,7 @@ public class WorldAgentBehaviour extends SimpleBehaviour {
 
 	private static final long serialVersionUID = 1L;
 	private HashMap<Integer, AID> agentMapping = null;
-	private static final int TICK_DURATION = 2000;
+	private static final int TICK_DURATION = 500;
 	
 	public WorldAgentBehaviour(Agent agent) {
 		super(agent);
@@ -52,7 +52,7 @@ public class WorldAgentBehaviour extends SimpleBehaviour {
 		SimulationEngine.getInstance().getGui().setStatusMessage("Sending information to agents...");
 		for(Entry<Integer, Intersection> entry : world.getIntersections().entrySet()) {
 			Intersection intersection = entry.getValue();
-			TrafficLightInfoPacket packet = new TrafficLightInfoPacket(intersection);
+			TrafficLightInfoPacket packet = new TrafficLightInfoPacket(intersection, agentMapping);
 			
 			// Search for the agent
 			try {
