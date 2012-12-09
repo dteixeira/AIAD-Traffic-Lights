@@ -114,7 +114,7 @@ public class TrafficLightAgentCommunicationBehaviour extends SimpleBehaviour {
 				horizontalSend -= (entry.getValue().getRoadCapacity() - entry.getValue().getCarCount());
 		}
 		boolean openVertical;
-		if(verticalSend > horizontalSend)
+		if(verticalSend < horizontalSend)
 			openVertical = true;
 		else
 			openVertical = false;
